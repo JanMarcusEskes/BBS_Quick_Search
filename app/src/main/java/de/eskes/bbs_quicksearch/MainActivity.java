@@ -1,10 +1,13 @@
 package de.eskes.bbs_quicksearch;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +22,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity {
     private String SERVER_RESPONSE;
+    ProgressDialog DIALOG = null;
 
     /**
      * Löst aus, wenn die Activity wieder den Focus hat
@@ -90,24 +101,189 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //speichern der Antwort des Servers
-                    SERVER_RESPONSE = response;
+                        analyseXmlString(response);
+                        Log.i("Response" ,response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Fehlermeldung, da der Server nicht antwortet
-                    Toast toast = Toast.makeText(getApplicationContext(),R.string.downloadFail, Toast.LENGTH_LONG);
-                    toast.show();
+                        Toast toast = Toast.makeText(getApplicationContext(),R.string.downloadFail, Toast.LENGTH_LONG);
+                        toast.show();
+                        DIALOG.cancel();
                     }
                 });
                 //Ausführen der Volley Anfrage
                 queue.add(stringRequest);
 
-                //TODO: Implement search Logic
-                //Die Antwort ist in SERVER_RESPONSE gespeichert
+                //Ladebildschirm
+                //Quelle: https://stackoverflow.com/questions/2525683/how-to-create-loading-dialogs-in-android
+                DIALOG = ProgressDialog.show(MainActivity.this, "Download", "Please Wait ...", true);
 
             }
         });
+    }
+
+    /**
+     * Wird genutzt, um den XML-Code, den der Server zurück gibt und der als Parameter übergeben wird in die Schulstunden zu Parsen
+     * @param response Ist der XML-String, der geparst werden soll
+     */
+    public void analyseXmlString(String response){
+        //Schließen des Ladedialoges
+        DIALOG.cancel();
+        //Parsen des XML in "Lessons"
+        //Quelle: http://www.vogella.com/tutorials/AndroidXML/article.html
+
+        //Festlegen der XML-Tags
+        String tag = "Tag";
+        String pos = "Pos";
+        String lehrer = "Lehrer";
+        String fach = "Fach";
+        String raum = "Raum";
+        String klasse = "Klasse";
+        String vertreter = "Vertreter";
+        String art = "Art";
+        String info = "Info";
+        String lesson = "Lesson";
+        String document = "Substitude";
+
+        //Initialisieren des Parsers
+        XmlPullParser parser = Xml.newPullParser();
+        //StringReaser deklarieren
+        StringReader stream = null;
+        //Loginfo ausgeben (Dient nur zum Debug)
+        Log.i("Debug", "Stream initialisiert");
+        try {
+            //StreamReader initialisieren
+            stream = new StringReader(response);
+            //Loginfo ausgeben (Dient nur zum Debug)
+            Log.i("Debug", "Stream eingelesen");
+            //Parser den Inputstream übergeben
+            parser.setInput(stream);
+            //Loginfo ausgeben (Dient nur zum Debug)
+            Log.i("Debug", "Parser gesetzt");
+            //Speichert, um welches Element es sich im XML-Code handelt
+            int eventType = parser.getEventType();
+            //Bool, die zeigt ob der Code fertig geparst wurde
+            boolean done = false;
+            //Leere Lesson erzeugen zum zichenspeichern der Werte
+            Lesson cacheLesson = null;
+            //Loginfo ausgeben (Dient nur zum Debug)
+            Log.i("Debug", "Leere Lesson erzeugt");
+            while (eventType != XmlPullParser.END_DOCUMENT && !done){
+                //Varriabele für den Name des aktuellen XML-Tags deklarieren
+                String name = null;
+                //Prüfen um welchen EventTyp es sich handelt
+                switch (eventType){
+                    //Wenn das Dokument startet ...
+                    case XmlPullParser.START_DOCUMENT:
+                        //Loginfo ausgeben (Dient nur zum Debug)
+                        Log.i("Debug", "Start festgestellt");
+                        //Nichts auführen und zum nächsten Tag übergehen
+                        break;
+                    //Wenn ein Tag startet
+                    case XmlPullParser.START_TAG:
+                        //Namen des Tags speichern
+                        name = parser.getName();
+                        //Loginfo ausgeben (Dient nur zum Debug)
+                        Log.i("Debug", name + " - Tag festgestellt");
+                        //Prüfen ob es sich um den XML-Tag einer neuen Schulstunde handelt
+                        if (name.equalsIgnoreCase(lesson)) {
+                            //Neue Stunde wird gespeichert
+                            cacheLesson = new Lesson();
+                        }
+                        else if (cacheLesson != null){
+                            //Der XML-Tag ist der Tag
+                            if (name.equalsIgnoreCase(tag)){
+                                //Speichern des Tages in der Lesson Eigenschaft
+                                cacheLesson.TAG = parser.nextText();
+                            }
+                            //Der XML-Tag ist die Position
+                            else if (name.equalsIgnoreCase(pos)){
+                                //Speichern der Position in der Lesson Eigenschaft
+                                cacheLesson.POS = parser.nextText();
+                            }
+                            //Der XML-Tag ist der Lehrer
+                            else if (name.equalsIgnoreCase(lehrer)){
+                                //Speichern des Lehrers in der Lesson Eigenschaft
+                                cacheLesson.LEHRER = parser.nextText();
+                            }
+                            //Der XML-Tag ist das Fach
+                            else if (name.equalsIgnoreCase(fach)){
+                                //Speichern des Fachs in der Lesson Eigenschaft
+                                cacheLesson.FACH = parser.nextText();
+                            }
+                            //Der XML-Tag ist der Raum
+                            else if (name.equalsIgnoreCase(raum)){
+                                //Speichern des Raumes in der Lesson Eigenschaft
+                                cacheLesson.RAUM = parser.nextText();
+                            }
+                            //Der XML-Tag ist die Klasse
+                            else if (name.equalsIgnoreCase(klasse)){
+                                //Speichern der Klasse in der Lesson Eigenschaft
+                                cacheLesson.KLASSE = parser.nextText();
+                            }
+                            //Der XML-Tag ist der Vertreter
+                            else if (name.equalsIgnoreCase(vertreter)){
+                                //Speichern des Vertreters in der Lesson Eigenschaft
+                                cacheLesson.VERTRETER = parser.nextText();
+                            }
+                            //Der XML-Tag ist die Art der Vertretung
+                            else if (name.equalsIgnoreCase(art)){
+                                //Speichern der Art in der Lesson Eigenschaft
+                                cacheLesson.ART = parser.nextText();
+                            }
+                            //Der XML-Tag ist die Zusatzinfo
+                            else if (name.equalsIgnoreCase(info)){
+                                //Speichern der Info in der Lesson Eigenschaft
+                                cacheLesson.INFO = parser.nextText();
+                            }
+                        }
+                        break;
+                    //Wenn der XML-Tag das Ende des Dokuments bedeutet
+                    case XmlPullParser.END_TAG:
+                        //Speichern des XML-Tag Namen
+                        name = parser.getName();
+                        if (name.equalsIgnoreCase(lesson)){
+                            //Loginfo ausgeben (Dient nur zum Debug)
+                            Log.i("Debug", "Lesson Added: Tag - " + cacheLesson.TAG);
+                            //Hinzufügen der zwichengespeicherten Stunde zu der Liste der Schulstunden
+                            Lesson.LESSONS.add(cacheLesson);
+                        //Sonst, wenn das Ende des Dokuments erreicht ist wird "done" auf true gesetzt
+                        } else if (name.equalsIgnoreCase(document)){
+                            done = true;
+                        }
+                        break;
+                }
+                //Nächter EventType wird geladen (Nächster XML-Tag wird eingelesen)
+                eventType = parser.next();
+            }
+
+        }
+        //Wenn ein Fehler auftritt
+        catch (Exception e) {
+            //Den Fehler ins Log schreiben
+            throw new RuntimeException(e);
+        }
+        //Ohnehin
+        finally {
+            //Prüfen ob Stream initialisiert ist
+            if (stream != null) {
+                try {
+                    //Versuchen den Stream zu schließen
+                    stream.close();
+                }
+                catch (Exception e) {
+                    //Im Log den Fehler ausgeben
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //Schulstunden befüllt
+        //Inhalt in Liste Lesson.LESSONS
+
+
     }
 
     /**
