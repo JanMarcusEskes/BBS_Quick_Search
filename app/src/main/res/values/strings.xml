@@ -19,4 +19,7 @@
     <string name="lblSave">Credentials only gets saved if they are correct</string>
     <string name="credentialsNotSaved">Credentials wasn\'t saved</string>
     <string name="loading">Loading, Please Wait …</string>
+    <string name="noLessons">There are no Lessons :c</string>
+    <string name="lessons1">"There are/is "</string>
+    <string name="lessons2">" result(s) :)"</string>
 </resources>

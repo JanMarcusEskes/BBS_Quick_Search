@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 //URL an die die Anfrage geschickt wird generieren
                 String url = "https://eskes.de/janmarcus/Server/index.php?output=XML2&password=" + settings.getString("Pass","") + "&search=" + txtSearchterm.getText().toString() + "&sites=" + settings.getInt("Days", 5);
 
-                //Zu Debug Zwecken die URL ausgeben
-                Toast toast = Toast.makeText(getApplicationContext(),url, Toast.LENGTH_LONG);
-                toast.show();
+                //Zu Debugzwecken die URL ausgeben
+                //Toast toast = Toast.makeText(getApplicationContext(),url, Toast.LENGTH_SHORT);
+                //toast.show();
 
                 //Erstellen der Volley Anfrage
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Ladebildschirm
                 //Quelle: https://stackoverflow.com/questions/2525683/how-to-create-loading-dialogs-in-android
-                DIALOG = ProgressDialog.show(MainActivity.this, "Download", "Please Wait ...", true);
+                DIALOG = ProgressDialog.show(MainActivity.this, "Download", getString(R.string.loading), true);
 
             }
         });
@@ -282,6 +282,20 @@ public class MainActivity extends AppCompatActivity {
 
         //Schulstunden befüllt
         //Inhalt in Liste Lesson.LESSONS
+
+        //Prüfen, ob ein Erbegnis vorhanden ist
+        if (Lesson.LESSONS.size() < 1){
+            //Ausgabe der Meldung
+            Toast toast = Toast.makeText(getApplicationContext(), R.string.noLessons, Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        //An dieser Stelle ist sicher, dass es Stunden gibt
+
+        Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.lessons1) + Lesson.LESSONS.size() + getString(R.string.lessons2), Toast.LENGTH_LONG);
+        toast.show();
+
+
 
 
     }

@@ -19,4 +19,7 @@
     <string name="lblSave">Die Anmeldedaten werden nur gespeichert, wenn sie korrekt sind</string>
     <string name="credentialsNotSaved">Anmeldedaten wurden nicht gespeichert</string>
     <string name="loading">Lade herrunter, bitte warten …</string>
+    <string name="noLessons">Es wurden keine Stunden gefunden :c</string>
+    <string name="lessons1">"Es gibt "</string>
+    <string name="lessons2">" Fund(e) :)"</string>
 </resources>
