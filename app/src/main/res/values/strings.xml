@@ -18,5 +18,5 @@
     <string name="btnSave">Save and Exit</string>
     <string name="lblSave">Credentials only gets saved if they are correct</string>
     <string name="credentialsNotSaved">Credentials wasn\'t saved</string>
-    <string name="loading">Loading, Please Wait ...</string>
+    <string name="loading">Loading, Please Wait …</string>
 </resources>

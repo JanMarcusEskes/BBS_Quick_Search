@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 //Speicher des zuletzt eingegebenen Suchbegriffes
                 editor.putString("Term", txtSearchterm.getText().toString());
                 //Anwenden der Änderungen
-                editor.commit();
+                editor.apply();
 
                 //URL an die die Anfrage geschickt wird generieren
                 String url = "https://eskes.de/janmarcus/Server/index.php?output=XML2&password=" + settings.getString("Pass","") + "&search=" + txtSearchterm.getText().toString() + "&sites=" + settings.getInt("Days", 5);
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Debug", "Leere Lesson erzeugt");
             while (eventType != XmlPullParser.END_DOCUMENT && !done){
                 //Varriabele für den Name des aktuellen XML-Tags deklarieren
-                String name = null;
+                String name;
                 //Prüfen um welchen EventTyp es sich handelt
                 switch (eventType){
                     //Wenn das Dokument startet ...
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                         name = parser.getName();
                         if (name.equalsIgnoreCase(lesson)){
                             //Loginfo ausgeben (Dient nur zum Debug)
-                            Log.i("Debug", "Lesson Added: Tag - " + cacheLesson.TAG);
+                            Log.i("Debug", "Lesson Added");
                             //Hinzufügen der zwichengespeicherten Stunde zu der Liste der Schulstunden
                             Lesson.LESSONS.add(cacheLesson);
                         //Sonst, wenn das Ende des Dokuments erreicht ist wird "done" auf true gesetzt
@@ -324,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
         });
         //Ausführen der Volley Anfrage
         queue.add(stringRequest);
-        return;
     }
 
     /**

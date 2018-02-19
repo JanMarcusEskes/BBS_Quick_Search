@@ -18,7 +18,7 @@ public class Lesson {
     public String VERTRETER;
     public String ART;
     public String INFO;
-    public static List<Lesson> LESSONS = new ArrayList<Lesson>();
+    public static List<Lesson> LESSONS = new ArrayList<>();
 
     public String toString(){
         return TAG + ";" + POS + ";" + LEHRER + ";" + FACH + ";" + RAUM + ";" + KLASSE  + ";" + VERTRETER  + ";" + ART + ";" + INFO;
