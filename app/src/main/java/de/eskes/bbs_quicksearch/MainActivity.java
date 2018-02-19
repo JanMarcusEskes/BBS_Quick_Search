@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 //Anwenden der Änderungen
                 editor.apply();
 
+                //Zurücksetzen der Lessons Liste
+                Lesson.LESSONS.clear();
+
                 //URL an die die Anfrage geschickt wird generieren
                 String url = "https://eskes.de/janmarcus/Server/index.php?output=XML2&password=" + settings.getString("Pass","") + "&search=" + txtSearchterm.getText().toString() + "&sites=" + settings.getInt("Days", 5);
 
