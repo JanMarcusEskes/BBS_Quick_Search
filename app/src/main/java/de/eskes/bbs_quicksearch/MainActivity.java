@@ -30,13 +30,13 @@ import java.io.StringReader;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    private String SERVER_RESPONSE;
     ProgressDialog DIALOG = null;
 
     /**
      * Löst aus, wenn die Activity wieder den Focus hat
      * Quelle: https://developer.android.com/guide/components/activities/activity-lifecycle.html
      */
+
     @Override
     protected void onResume(){
         super.onResume();
