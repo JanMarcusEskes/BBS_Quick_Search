@@ -33,6 +33,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     ProgressDialog DIALOG = null;
+    int lastExpanded = -1;
 
     /**
      * Löst aus, wenn die Activity wieder den Focus hat
@@ -296,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //Schulstunden befüllt
+        //An diesem Punkt sind Schulstunden befüllt
         //Inhalt in Liste Lesson.LESSONS
 
         //Prüfen, ob ein Erbegnis vorhanden ist
@@ -311,10 +312,26 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.lessons1) + Lesson.LESSONS.size() + getString(R.string.lessons2), Toast.LENGTH_LONG);
         toast.show();
 
-        ExpandableListView expandableListView = findViewById(R.id.lstvResult);
+        //Initialisieren und deklarieren der expandablelistview
+        //Quelle: https://www.youtube.com/watch?v=0FJUwpnjScQ && https://www.youtube.com/watch?v=upYp631sffc
+        final ExpandableListView expandableListView = findViewById(R.id.lstvResult);
+        //Initialisieren des Datenadapters
         ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(MainActivity.this);
 
+        //Zuweisen das Daten-Adapters
         expandableListView.setAdapter(adapter);
+        //Setzten des onClickListeners, damit nur eine Gruppe gleichzeitig geöfnet ist
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                //Prüfen ob schon eine Gruppe geöffnet wurde und wenn, ob diese die gleiche ist, die gerade geöffnet wurde
+                if (lastExpanded != -1 && groupPosition != lastExpanded)
+                    //Einklappen der Gruppe
+                    expandableListView.collapseGroup(lastExpanded);
+                //Speichern des neuen Indexes der offenen Gruppe
+                lastExpanded = groupPosition;
+            }
+        });
 
 
     }
