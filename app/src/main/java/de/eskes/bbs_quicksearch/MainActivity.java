@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
      * Löst aus, wenn die Activity wieder den Focus hat
      * Quelle: https://developer.android.com/guide/components/activities/activity-lifecycle.html
      */
+
     @Override
     protected void onResume(){
         super.onResume();
