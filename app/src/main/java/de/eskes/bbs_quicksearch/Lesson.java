@@ -41,6 +41,8 @@ public class Lesson {
             zusatz = "Verschoben";
         else if(ART.contains("Stillarbeit"))
             zusatz = "Stillarbeit";
+        else if(ART.contains("Raum"))
+            zusatz = RAUM;
         else if(!VERTRETER.equalsIgnoreCase(""))
             zusatz = "Vertretung";
         else

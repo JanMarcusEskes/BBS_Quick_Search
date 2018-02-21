@@ -15,7 +15,7 @@ import java.util.List;
 public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
 
     private List<String> groupNames = new ArrayList<>();
-    private List<List<String>> childNames = new ArrayList<>();
+    private List<List<Lesson>> childNames = new ArrayList<>();
 
     private Context context;
 
@@ -26,17 +26,16 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
             String groupTitle = lesson.getGroupText();
             if (!groupNames.contains(groupTitle)) {
                 groupNames.add(groupTitle);
-                childNames.add(new ArrayList<String>());
+                childNames.add(new ArrayList<Lesson>());
             }
 
-            String childTitle = lesson.getChildText();
-            List<String> childs = childNames.get(groupNames.indexOf(groupTitle));
+            List<Lesson> childs = childNames.get(groupNames.indexOf(groupTitle));
             if (childs != null)
-                childs.add(childTitle);
+                childs.add(lesson);
         }
         Log.i("Gruppen" , groupNames.size() + "");
         Log.i("childs" , childNames.size() + "");
-        for (List<String> childs: childNames) {
+        for (List<Lesson> childs: childNames) {
             Log.i("child " , childs.size() + "");
         }
 
@@ -88,21 +87,16 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition,final int childPosition, boolean isLastChild, View view, ViewGroup parent) {
-
+        final Lesson lesson = childNames.get(groupPosition).get(childPosition);
         final TextView txtView = new TextView(context);
-        txtView.setText(childNames.get(groupPosition).get(childPosition));
+        txtView.setText(lesson.getChildText());
         txtView.setPadding(100,0,0,0);
         txtView.setTextSize(22);
 
         txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = 0;
-                for (int i = 0; i < groupPosition; i++){
-                    index += childNames.get(i).size();
-                }
 
-                Lesson lesson = Lesson.LESSONS.get(index);
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                 alertDialog.setMessage(lesson.toString());
