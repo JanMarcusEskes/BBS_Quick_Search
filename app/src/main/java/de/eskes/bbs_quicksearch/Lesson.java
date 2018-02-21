@@ -18,10 +18,35 @@ public class Lesson {
     public String VERTRETER;
     public String ART;
     public String INFO;
+
+    //Statische Liste, zum Speichern aller Stunden
     public static List<Lesson> LESSONS = new ArrayList<>();
 
+    //Darstellen der Eigenschaften in einem String
     public String toString(){
-        return TAG + ";" + POS + ";" + LEHRER + ";" + FACH + ";" + RAUM + ";" + KLASSE  + ";" + VERTRETER  + ";" + ART + ";" + INFO;
+        return "Tag : " + TAG + "\n\nStunde : " + POS + "\n\nLehrer : " + LEHRER + "\n\nFach : " + FACH + "\n\nRaum : " + RAUM + "\n\nKlasse : " + KLASSE  + "\n\nVertreter : " + VERTRETER  + "\n\nArt : " + ART + "\n\nInfo : " + INFO;
+    }
+
+    //Generiert die entsprechende Gruppenüberschrift (Für ExpandableListViewAdapter)
+    public String getGroupText(){
+        return TAG + " " + KLASSE;
+    }
+
+    //Generiert die entsprechende Childüberschrift (Für ExpandableListViewAdapter)
+    public String getChildText(){
+        String zusatz;
+        if(ART.contains("Frei"))
+            zusatz = ART;
+        else if(ART.contains("verschoben"))
+            zusatz = "Verschoben";
+        else if(ART.contains("Stillarbeit"))
+            zusatz = "Stillarbeit";
+        else if(!VERTRETER.equalsIgnoreCase(""))
+            zusatz = "Vertretung";
+        else
+            zusatz = "Anderes";
+
+        return POS + " Stunde\t\t" + FACH + "\t\t" + zusatz;
     }
 
 }

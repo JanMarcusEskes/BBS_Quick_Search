@@ -11,8 +11,10 @@ import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,7 +32,6 @@ import java.io.StringReader;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    private String SERVER_RESPONSE;
     ProgressDialog DIALOG = null;
 
     /**
@@ -81,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    //Dient zum ausblenden der Tastatur beim drücken des Suchen buttons
+                    //Quelle: https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
+                    InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
+                }
+                catch (Exception x){
+                    //Uninteressante Logmeldung
+                    Log.e("MainActivity", "No focused View");
+                }
+
                 //Initialisieren des Editor zum schreiben der Einstellungen
                 //Quelle: https://developer.android.com/reference/android/content/SharedPreferences.Editor.html
                 SharedPreferences.Editor editor = settings.edit();
@@ -199,47 +211,47 @@ public class MainActivity extends AppCompatActivity {
                             //Der XML-Tag ist der Tag
                             if (name.equalsIgnoreCase(tag)){
                                 //Speichern des Tages in der Lesson Eigenschaft
-                                cacheLesson.TAG = parser.nextText();
+                                cacheLesson.TAG = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist die Position
                             else if (name.equalsIgnoreCase(pos)){
                                 //Speichern der Position in der Lesson Eigenschaft
-                                cacheLesson.POS = parser.nextText();
+                                cacheLesson.POS = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist der Lehrer
                             else if (name.equalsIgnoreCase(lehrer)){
                                 //Speichern des Lehrers in der Lesson Eigenschaft
-                                cacheLesson.LEHRER = parser.nextText();
+                                cacheLesson.LEHRER = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist das Fach
                             else if (name.equalsIgnoreCase(fach)){
                                 //Speichern des Fachs in der Lesson Eigenschaft
-                                cacheLesson.FACH = parser.nextText();
+                                cacheLesson.FACH = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist der Raum
                             else if (name.equalsIgnoreCase(raum)){
                                 //Speichern des Raumes in der Lesson Eigenschaft
-                                cacheLesson.RAUM = parser.nextText();
+                                cacheLesson.RAUM = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist die Klasse
                             else if (name.equalsIgnoreCase(klasse)){
                                 //Speichern der Klasse in der Lesson Eigenschaft
-                                cacheLesson.KLASSE = parser.nextText();
+                                cacheLesson.KLASSE = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist der Vertreter
                             else if (name.equalsIgnoreCase(vertreter)){
                                 //Speichern des Vertreters in der Lesson Eigenschaft
-                                cacheLesson.VERTRETER = parser.nextText();
+                                cacheLesson.VERTRETER = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist die Art der Vertretung
                             else if (name.equalsIgnoreCase(art)){
                                 //Speichern der Art in der Lesson Eigenschaft
-                                cacheLesson.ART = parser.nextText();
+                                cacheLesson.ART = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                             //Der XML-Tag ist die Zusatzinfo
                             else if (name.equalsIgnoreCase(info)){
                                 //Speichern der Info in der Lesson Eigenschaft
-                                cacheLesson.INFO = parser.nextText();
+                                cacheLesson.INFO = parser.nextText().replace('\n', '\0').replace('\r', '\0');
                             }
                         }
                         break;
@@ -297,6 +309,11 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.lessons1) + Lesson.LESSONS.size() + getString(R.string.lessons2), Toast.LENGTH_LONG);
         toast.show();
+
+        ExpandableListView expandableListView = findViewById(R.id.lstvResult);
+        ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(MainActivity.this);
+
+        expandableListView.setAdapter(adapter);
 
 
     }
