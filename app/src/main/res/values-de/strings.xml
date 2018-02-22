@@ -22,4 +22,5 @@
     <string name="noLessons">Es wurden keine Stunden gefunden :c</string>
     <string name="lessons1">"Es gibt "</string>
     <string name="lessons2">" Fund(e) :)"</string>
+    <string name="details">Schulstunden Details</string>
 </resources>

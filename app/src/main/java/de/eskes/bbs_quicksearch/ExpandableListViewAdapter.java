@@ -147,7 +147,7 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
         //Paddings zum Rand setzen
         txtView.setPadding(100,0,0,0);
         //Schriftgröße setzen
-        txtView.setTextSize(30);
+        txtView.setTextSize(29);
         //View zurückggeben
         return txtView;
     }
@@ -155,8 +155,8 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
     /**
      * Wird in der BaseExpandableListViewAdapter abstract deklariert und muss daher implementiert werden
      * Generiert ein View, welches genutzt wird um childs dar zu stellen
-     * @param groupPosition
-     * @param childPosition
+     * @param groupPosition Gruppe, in der sich das Child befindet
+     * @param childPosition Die Position des Childs innerhalb der Gruppe
      * @param isLastChild
      * @param view
      * @param parent
@@ -164,20 +164,29 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
      */
     @Override
     public View getChildView(final int groupPosition,final int childPosition, boolean isLastChild, View view, ViewGroup parent) {
+        //Raussuchen der Lesson anhand der group- und childPosition
         final Lesson lesson = childNames.get(groupPosition).get(childPosition);
+        //Initialisieren des neuen TextView
         final TextView txtView = new TextView(context);
+        //Setzen des anzuzeigenden Textes
         txtView.setText(lesson.getChildText());
+        //Paddings zum Rand setzen
         txtView.setPadding(100,0,0,0);
+        //Textgröße setzen
         txtView.setTextSize(22);
 
+        //Abfangen des onClick Events
         txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                //Erstellen eines AlertDialog Builders, welcher als vorlage eines AlertDialogs dient
+                //Quelle: https://stackoverflow.com/questions/6264694/how-to-add-message-box-with-ok-button
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                //Setzen des anzuzeigenden Textes
                 alertDialog.setMessage(lesson.toString());
-                alertDialog.setTitle(txtView.getText());
+                //Setzen des Titels
+                alertDialog.setTitle(R.string.details);
+                //Leeren onClick Listener hinzufügen, da sonst die App abstürtzt
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -195,5 +204,10 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    public void Clear(){
+        groupNames.clear();
+        childNames.clear();
     }
 }

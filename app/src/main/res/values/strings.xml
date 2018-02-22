@@ -22,4 +22,5 @@
     <string name="noLessons">There are no Lessons :c</string>
     <string name="lessons1">"There are/is "</string>
     <string name="lessons2">" result(s) :)"</string>
+    <string name="details">Lessons Details</string>
 </resources>

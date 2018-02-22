@@ -320,7 +320,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Zuweisen das Daten-Adapters
         expandableListView.setAdapter(adapter);
+
         //Setzten des onClickListeners, damit nur eine Gruppe gleichzeitig geöfnet ist
+        //Quelle: https://stackoverflow.com/questions/17586174/collapse-all-group-except-selected-group-in-expandable-listview-android
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
