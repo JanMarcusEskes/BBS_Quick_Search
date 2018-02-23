@@ -19,6 +19,9 @@ public class Lesson {
     public String ART;
     public String INFO;
 
+    //Speichern das aktualisierungszeitpunkts
+    public static String REFRESHED;
+
     //Statische Liste, zum Speichern aller Stunden
     public static List<Lesson> LESSONS = new ArrayList<>();
 
@@ -29,7 +32,7 @@ public class Lesson {
 
     //Generiert die entsprechende Gruppenüberschrift (Für ExpandableListViewAdapter)
     public String getGroupText(){
-        return TAG + " " + KLASSE;
+        return TAG + "\n" + KLASSE;
     }
 
     //Generiert die entsprechende Childüberschrift (Für ExpandableListViewAdapter)
