@@ -50,6 +50,10 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
                 //Hinzufügen der aktuell eingelesenen Schulstunde in Überkategorie
                 childs.add(lesson);
         }
+        //Hinzufügen des Datum der letzten aktualisierung
+        groupNames.add("Aktualisiert am\n"+ Lesson.REFRESHED);
+        childNames.add(new ArrayList<Lesson>());
+
         //Log-Ausgaben zu Debugzwecken
         Log.i("Gruppenliste" , groupNames.size() + "");
         Log.i("Childliste" , childNames.size() + "");

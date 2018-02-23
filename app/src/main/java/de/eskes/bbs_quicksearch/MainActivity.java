@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         String art = "Art";
         String info = "Info";
         String lesson = "Lesson";
+        String refreshed = "Refreshed";
         String document = "Substitude";
 
         //Initialisieren des Parsers
@@ -208,6 +209,11 @@ public class MainActivity extends AppCompatActivity {
                         if (name.equalsIgnoreCase(lesson)) {
                             //Neue Stunde wird gespeichert
                             cacheLesson = new Lesson();
+                        }
+                        //Speichern des Datums, wann die letzte aktualisierung stattfand
+                        else if (name.equalsIgnoreCase(refreshed)){
+                            Lesson.REFRESHED = parser.nextText();
+                            Log.i("Refreshed", Lesson.REFRESHED);
                         }
                         else if (cacheLesson != null){
                             //Der XML-Tag ist der Tag
