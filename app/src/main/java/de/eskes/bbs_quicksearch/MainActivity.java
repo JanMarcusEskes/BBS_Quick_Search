@@ -127,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
                         //Fehlermeldung, da der Server nicht antwortet
                         Toast toast = Toast.makeText(getApplicationContext(),R.string.downloadFail, Toast.LENGTH_LONG);
                         toast.show();
+                        //Ausgeben der Fehlermeldung im Log
+                        Log.e("Volley", error.getMessage());
+                        //Download-Dialog schließen
                         DIALOG.cancel();
                     }
                 });
