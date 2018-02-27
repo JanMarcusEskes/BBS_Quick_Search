@@ -8,7 +8,7 @@ import java.util.List;
  * werden können. Beispielsweise in ListView Itmes etc.
  */
 
-public class Lesson {
+class Lesson {
     public String TAG;
     public String POS;
     public String LEHRER;
@@ -23,7 +23,7 @@ public class Lesson {
     public static String REFRESHED;
 
     //Statische Liste, zum Speichern aller Stunden
-    public static List<Lesson> LESSONS = new ArrayList<>();
+    public static final List<Lesson> LESSONS = new ArrayList<>();
 
     //Darstellen der Eigenschaften in einem String
     public String toString(){

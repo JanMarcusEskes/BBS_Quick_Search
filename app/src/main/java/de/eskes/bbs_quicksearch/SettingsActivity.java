@@ -1,5 +1,6 @@
 package de.eskes.bbs_quicksearch;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static boolean CREDENTIALS = false;
+    private static boolean CREDENTIALS = false;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         //OnChange Event abfangen
         //Quelle: https://developer.android.com/reference/android/widget/SeekBar.OnSeekBarChangeListener.html (27.02.2018)
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //Wenn der Wert sich ändert den Text von "lblDaysValue" ändern
@@ -114,12 +117,14 @@ public class SettingsActivity extends AppCompatActivity {
      * @param pass Das Passwort, das überprüft werden soll
      * @return Die fertige "StringRequest"
      */
-    public StringRequest testCredentials(String pass){
+    private StringRequest testCredentials(String pass){
         //URL, an die die Anfrage geschickt werden soll
         final String url = "https://eskes.de/janmarcus/Server/index.php?check=" + pass;
 
         //StringRequest, die zurückgegeben wird
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+        //Zurückgeben der StringRequest
+        return new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Der Server läuft mit einem slebstgeschriebenen PHP-Script, welches beim Parameter "check" das mit übergebene Passwort prüft und mit "true" oder "false" antwortet
@@ -147,16 +152,13 @@ public class SettingsActivity extends AppCompatActivity {
                 toast.show();
             }
         });
-
-        //Zurückgeben der StringRequest
-        return stringRequest;
     }
 
     /**
      * Setzt die boolen "CREDENTIALS" und de-/aktiviert den Button "btnLogin"
      * @param value Wert, der für "CREDENTIALS" gesetzt werden soll (true = Login erfolgreich)
      */
-    public void setCredentials(boolean value){
+    private void setCredentials(boolean value){
         //Setzten von "CREDENTIALS"
         CREDENTIALS = value;
         //Initialisieren des Buttons
@@ -169,7 +171,7 @@ public class SettingsActivity extends AppCompatActivity {
      * Dient zum speichern der gesetzten Einstellungen
      * Quelle: Siehe MainActivity
      */
-    public void saveSettings(){
+    private void saveSettings(){
         //Laden der gespeicherten Einstellungen
         SharedPreferences settings = getSharedPreferences("Settings", 0);
         //Initialisieren des "Editor", ohne den keine Einstellungen geändert werden können
@@ -186,6 +188,7 @@ public class SettingsActivity extends AppCompatActivity {
         //Wenn die eingegebenen Anmeldedaten korrekt sind werden diese auch gespeichert, sonst nicht
         if (CREDENTIALS) {
             //Speichern der Anmeldedaten
+            //noinspection ConstantConditions
             editor.putBoolean("Credentials", CREDENTIALS);
             editor.putString("User", txtUser.getText().toString());
             editor.putString("Pass", txtPass.getText().toString());
@@ -196,7 +199,7 @@ public class SettingsActivity extends AppCompatActivity {
             toast.show();
         }
         //Der "Editor" speichert hier die Änderungen und schließt sich danach
-        editor.commit();
+        editor.apply();
     }
 
     /**

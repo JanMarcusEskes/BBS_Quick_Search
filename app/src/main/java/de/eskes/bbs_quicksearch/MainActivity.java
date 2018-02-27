@@ -26,14 +26,11 @@ import com.android.volley.toolbox.Volley;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
-import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    ProgressDialog DIALOG = null;
-    int lastExpanded = -1;
+    private ProgressDialog DIALOG = null;
+    private int lastExpanded = -1;
 
     /**
      * Löst aus, wenn die Activity wieder den Focus hat
@@ -82,12 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
         //onClick Event abfangen
         btnSearch.setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("ConstantConditions")
             @Override
             public void onClick(View v) {
                 try {
                     //Dient zum ausblenden der Tastatur beim drücken des Suchen buttons
                     //Quelle: https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard (27.02.2018)
                     InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.INPUT_METHOD_SERVICE);
+                    //noinspection ConstantConditions,ConstantConditions
                     imm.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
                 }
                 catch (Exception x){
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
      * Wird genutzt, um den XML-Code, den der Server zurück gibt und der als Parameter übergeben wird in die Schulstunden zu Parsen
      * @param response Ist der XML-String, der geparst werden soll
      */
-    public void analyseXmlString(String response){
+    private void analyseXmlString(String response){
         //Schließen des Ladedialoges
         DIALOG.cancel();
         //Parsen des XML in "Lessons"
@@ -352,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pass  zu Prüfendes Passwort
      * @param queue Volley queue, mit der die Anfrage ausgeführt werden soll
      */
-    public void testCredentials(String pass, RequestQueue queue){
+    private void testCredentials(String pass, RequestQueue queue){
         //URL wird generiert
         final String url = "https://eskes.de/janmarcus/Server/index.php?check=" + pass;
 

@@ -16,14 +16,14 @@ import java.util.List;
  * Dient als verbindung zwichen den Lesson.LESSONS Array und der ExpandableListView
  * Quelle: https://www.youtube.com/watch?v=0FJUwpnjScQ (27.02.2018) && https://www.youtube.com/watch?v=upYp631sffc (27.02.2018)
  */
-public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
+class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
 
     //Dient zum speichern der Überschriften
-    private List<String> groupNames = new ArrayList<>();
+    private final List<String> groupNames = new ArrayList<>();
     //Sortiertes speichern der Schulstunden im Bezug auf die ExpandableListView
-    private List<List<Lesson>> childNames = new ArrayList<>();
+    private final List<List<Lesson>> childNames = new ArrayList<>();
     //Erforderlich, zum erstellen neuer Views, wie z.B. TextViews
-    private Context context;
+    private final Context context;
 
     /**
      * Konstruktor, zum füllen der internen ArrayLists und dem Deklarieren des Contexts
@@ -96,7 +96,6 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
      * Wird in der BaseExpandableListViewAdapter abstract deklariert und muss daher implementiert werden
      * @param groupPosition gruppe, in der das child ist
      * @param childPosition der index des childs das geforddert wird
-     * @return
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
@@ -138,8 +137,6 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
      * Generiert ein View, welches als Gruppe ausgegeben wird
      * @param groupPosition Position (Index) der geforderten Gruppe
      * @param isExpanded Ist die Gruppe geöffnet?
-     * @param view
-     * @param parent
      * @return View, welches ausgegeben wird
      */
     @Override
@@ -161,10 +158,6 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
      * Generiert ein View, welches genutzt wird um childs dar zu stellen
      * @param groupPosition Gruppe, in der sich das Child befindet
      * @param childPosition Die Position des Childs innerhalb der Gruppe
-     * @param isLastChild
-     * @param view
-     * @param parent
-     * @return
      */
     @Override
     public View getChildView(final int groupPosition,final int childPosition, boolean isLastChild, View view, ViewGroup parent) {
@@ -210,8 +203,4 @@ public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
         return false;
     }
 
-    public void Clear(){
-        groupNames.clear();
-        childNames.clear();
-    }
 }

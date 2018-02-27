@@ -18,7 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/activity_settings"
-        app:titleTextColor="@color/colorWhite" />
+        app:titleTextColor="@color/colorWhite"
+        tools:targetApi="lollipop" />
 
     <Button
         android:id="@+id/btnSettings"
@@ -70,7 +71,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDays" />
+        app:layout_constraintTop_toBottomOf="@+id/lblDays"
+        tools:targetApi="o" />
 
     <TextView
         android:id="@+id/lblDays"
