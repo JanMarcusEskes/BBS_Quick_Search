@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
         seekBarValue.setText(getString(R.string.sliderDaysValue) + String.valueOf(seekBar.getProgress()));
 
         //OnChange Event abfangen
-        //Quelle: https://developer.android.com/reference/android/widget/SeekBar.OnSeekBarChangeListener.html
+        //Quelle: https://developer.android.com/reference/android/widget/SeekBar.OnSeekBarChangeListener.html (27.02.2018)
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -200,7 +200,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * Quelle: https://developer.android.com/guide/components/activities/activity-lifecycle.html
+     * Quelle: https://developer.android.com/guide/components/activities/activity-lifecycle.html (27.02.2018)
      */
     @Override
     protected void onStop(){

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Löst aus, wenn die Activity wieder den Focus hat
-     * Quelle: https://developer.android.com/guide/components/activities/activity-lifecycle.html
+     * Quelle: https://developer.android.com/guide/components/activities/activity-lifecycle.html (27.02.2018)
      */
 
     @Override
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //Dient zum ausblenden der Tastatur beim drücken des Suchen buttons
-                    //Quelle: https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
+                    //Quelle: https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard (27.02.2018)
                     InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
                 }
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //Initialisieren des Editor zum schreiben der Einstellungen
-                //Quelle: https://developer.android.com/reference/android/content/SharedPreferences.Editor.html
+                //Quelle: https://developer.android.com/reference/android/content/SharedPreferences.Editor.html (27.02.2018)
                 SharedPreferences.Editor editor = settings.edit();
                 //Speicher des zuletzt eingegebenen Suchbegriffes
                 editor.putString("Term", txtSearchterm.getText().toString());
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(),R.string.downloadFail, Toast.LENGTH_LONG);
                         toast.show();
                         //Ausgeben der Fehlermeldung im Log
-                        Log.e("Volley", error.getMessage());
+                        //Log.e("Volley", error.getLocalizedMessage());
                         //Download-Dialog schließen
                         DIALOG.cancel();
                     }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(stringRequest);
 
                 //Ladebildschirm
-                //Quelle: https://stackoverflow.com/questions/2525683/how-to-create-loading-dialogs-in-android
+                //Quelle: https://stackoverflow.com/questions/2525683/how-to-create-loading-dialogs-in-android (27.02.2018)
                 DIALOG = ProgressDialog.show(MainActivity.this, "Download", getString(R.string.loading), true);
 
             }
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         //Schließen des Ladedialoges
         DIALOG.cancel();
         //Parsen des XML in "Lessons"
-        //Quelle: http://www.vogella.com/tutorials/AndroidXML/article.html
+        //Quelle: http://www.vogella.com/tutorials/AndroidXML/article.html (27.02.2018)
 
         //Festlegen der XML-Tags
         String tag = "Tag";
@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
 
         //Initialisieren und deklarieren der expandablelistview
-        //Quelle: https://www.youtube.com/watch?v=0FJUwpnjScQ && https://www.youtube.com/watch?v=upYp631sffc
+        //Quelle: https://www.youtube.com/watch?v=0FJUwpnjScQ && https://www.youtube.com/watch?v=upYp631sffc (27.02.2018)
         final ExpandableListView expandableListView = findViewById(R.id.lstvResult);
         //Initialisieren des Datenadapters
         ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(MainActivity.this);
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
         expandableListView.setAdapter(adapter);
 
         //Setzten des onClickListeners, damit nur eine Gruppe gleichzeitig geöfnet ist
-        //Quelle: https://stackoverflow.com/questions/17586174/collapse-all-group-except-selected-group-in-expandable-listview-android
+        //Quelle: https://stackoverflow.com/questions/17586174/collapse-all-group-except-selected-group-in-expandable-listview-android (27.02.2018)
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
@@ -412,13 +412,13 @@ public class MainActivity extends AppCompatActivity {
             //btnSettings hat das Event ausgelöst
             case R.id.btnSettings:
                 //Settings-Activity wird gestartet
-                //Quellen: https://developer.android.com/training/basics/firstapp/starting-activity.html , https://stackoverflow.com/questions/4186021/how-to-start-new-activity-on-button-click
+                //Quellen: https://developer.android.com/training/basics/firstapp/starting-activity.html , https://stackoverflow.com/questions/4186021/how-to-start-new-activity-on-button-click (27.02.2018)
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             //btnClose hat das Event ausgelöst
             case R.id.btnClose:
                 //Die Anwendung wird geschlossen (leert RAM-Bereich und Beendet sich komplett)
-                //Quelle: https://stackoverflow.com/questions/2092951/how-to-close-android-application
+                //Quelle: https://stackoverflow.com/questions/2092951/how-to-close-android-application (27.02.2018)
                 System.exit(0);
                 return true;
         }

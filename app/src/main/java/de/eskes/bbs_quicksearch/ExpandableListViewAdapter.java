@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Dient als verbindung zwichen den Lesson.LESSONS Array und der ExpandableListView
- * Quelle: https://www.youtube.com/watch?v=0FJUwpnjScQ && https://www.youtube.com/watch?v=upYp631sffc
+ * Quelle: https://www.youtube.com/watch?v=0FJUwpnjScQ (27.02.2018) && https://www.youtube.com/watch?v=upYp631sffc (27.02.2018)
  */
 public class ExpandableListViewAdapter  extends BaseExpandableListAdapter {
 
