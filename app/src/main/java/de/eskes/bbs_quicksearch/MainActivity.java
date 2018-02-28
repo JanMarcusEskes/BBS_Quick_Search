@@ -27,6 +27,8 @@ import com.android.volley.toolbox.Volley;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private ProgressDialog DIALOG = null;
@@ -106,19 +108,21 @@ public class MainActivity extends AppCompatActivity {
                 Lesson.LESSONS.clear();
 
                 //URL an die die Anfrage geschickt wird generieren
-                String url = "https://eskes.de/janmarcus/Server/index.php?output=XML2&password=" + settings.getString("Pass","") + "&search=" + txtSearchterm.getText().toString() + "&sites=" + settings.getInt("Days", 5);
+                String url = "https://eskes.de/janmarcus/Server/index.php ";
 
                 //Zu Debugzwecken die URL ausgeben
                 //Toast toast = Toast.makeText(getApplicationContext(),url, Toast.LENGTH_SHORT);
                 //toast.show();
 
                 //Erstellen der Volley Anfrage
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //speichern der Antwort des Servers
-                        analyseXmlString(response);
+                        //Zu Debugzwecken ausgeben der Antwort
                         Log.i("Response" ,response);
+                        //Analysieren der Antwort des Servers
+                        analyseXmlString(response);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -131,7 +135,19 @@ public class MainActivity extends AppCompatActivity {
                         //Download-Dialog schließen
                         DIALOG.cancel();
                     }
-                });
+                }
+                ){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<>();
+                        params.put("output", "XML2");
+                        params.put("password",  settings.getString("Pass",""));
+                        params.put("search", txtSearchterm.getText().toString());
+                        params.put("sites", settings.getInt("Days", 5) + "");
+                        return params;
+                    }
+                };
                 //Ausführen der Volley Anfrage
                 queue.add(stringRequest);
 
@@ -351,14 +367,14 @@ public class MainActivity extends AppCompatActivity {
      * @param pass  zu Prüfendes Passwort
      * @param queue Volley queue, mit der die Anfrage ausgeführt werden soll
      */
-    private void testCredentials(String pass, RequestQueue queue){
+    private void testCredentials(final String pass, RequestQueue queue){
         //Anzeigen eines Wartebildschirms
         DIALOG = ProgressDialog.show(MainActivity.this, getString(R.string.login1), getString(R.string.wait), true);
         //URL wird generiert
-        final String url = "https://eskes.de/janmarcus/Server/index.php?check=" + pass;
+        final String url = "https://eskes.de/janmarcus/Server/index.php";
 
         //Erstellen der Volley Anfrage
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Initialisieren der Steuerelemente
@@ -387,7 +403,15 @@ public class MainActivity extends AppCompatActivity {
                 //Schließen des Wartedialogs
                 DIALOG.cancel();
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<>();
+                params.put("check", pass);
+                return params;
+            }
+        };
         //Ausführen der Volley Anfrage
         queue.add(stringRequest);
     }

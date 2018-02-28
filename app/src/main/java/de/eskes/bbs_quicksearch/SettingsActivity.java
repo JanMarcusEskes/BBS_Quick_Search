@@ -21,6 +21,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SettingsActivity extends AppCompatActivity {
     private static boolean CREDENTIALS = false;
 
@@ -118,16 +121,16 @@ public class SettingsActivity extends AppCompatActivity {
      * @param pass Das Passwort, das überprüft werden soll
      * @return Die fertige "StringRequest"
      */
-    private StringRequest testCredentials(String pass){
+    private StringRequest testCredentials(final String pass){
         //Anzeigen eines Wartebildschirms
         final ProgressDialog DIALOG = ProgressDialog.show(SettingsActivity.this, getString(R.string.login1), getString(R.string.wait), true);
         //URL, an die die Anfrage geschickt werden soll
-        final String url = "https://eskes.de/janmarcus/Server/index.php?check=" + pass;
+        final String url = "https://eskes.de/janmarcus/Server/index.php";
 
         //StringRequest, die zurückgegeben wird
 
         //Zurückgeben der StringRequest
-        return new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        return new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Der Server läuft mit einem slebstgeschriebenen PHP-Script, welches beim Parameter "check" das mit übergebene Passwort prüft und mit "true" oder "false" antwortet
@@ -156,7 +159,15 @@ public class SettingsActivity extends AppCompatActivity {
                 toast.show();
                 DIALOG.cancel();
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<>();
+                params.put("check", pass);
+                return params;
+            }
+        };
     }
 
     /**
