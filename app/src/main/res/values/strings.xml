@@ -11,8 +11,8 @@
     <string name="sliderDaysValue">Days:</string>
     <string name="loginSuccessful">Login Successful</string>
     <string name="loginFailed">Login Failed</string>
-    <string name="downloadFail">The download from the server failed!</string>
-    <string name="loginWrong">Login Failed! Please reenter the credentials in the Settings</string>
+    <string name="downloadFail">The download from the server failed! Please try again later</string>
+    <string name="loginWrong">Login Failed! Please reenter the credentials in the Settings or try again later</string>
     <string name="btnClose">Close</string>
     <string name="btnLogin">Login</string>
     <string name="btnSave">Save and Exit</string>
@@ -23,4 +23,6 @@
     <string name="lessons1">"There are/is "</string>
     <string name="lessons2">" result(s) :)"</string>
     <string name="details">Lessons Details</string>
+    <string name="login1">Authentification</string>
+    <string name="wait">please wait …</string>
 </resources>

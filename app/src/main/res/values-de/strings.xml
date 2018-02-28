@@ -11,8 +11,8 @@
     <string name="sliderDaysValue">"Tage: "</string>
     <string name="loginSuccessful">Anmeldung erfolgreich</string>
     <string name="loginFailed">Anmeldung fehlgeschlagen</string>
-    <string name="downloadFail">Der Download vom Server ist fehlgeschlagen</string>
-    <string name="loginWrong">Anmeldung Fehlgeschlagen! Bitte geben Sie das Password erneut in den Einstellungen ein</string>
+    <string name="downloadFail">Der Download vom Server ist fehlgeschlagen! Bitte versuchen Sie es später erneut</string>
+    <string name="loginWrong">Anmeldung Fehlgeschlagen! Bitte geben Sie das Password erneut in den Einstellungen ein oder versuchen Sie es später nochmal</string>
     <string name="btnClose">Beenden</string>
     <string name="btnLogin">Anmelden</string>
     <string name="btnSave">Speichern und zurück</string>
@@ -23,4 +23,6 @@
     <string name="lessons1">"Es gibt "</string>
     <string name="lessons2">" Fund(e) :)"</string>
     <string name="details">Schulstunden Details</string>
+    <string name="login1">Authentifizierung</string>
+    <string name="wait">Bitte warten …</string>
 </resources>

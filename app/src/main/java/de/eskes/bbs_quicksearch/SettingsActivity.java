@@ -1,6 +1,7 @@
 package de.eskes.bbs_quicksearch;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -118,6 +119,8 @@ public class SettingsActivity extends AppCompatActivity {
      * @return Die fertige "StringRequest"
      */
     private StringRequest testCredentials(String pass){
+        //Anzeigen eines Wartebildschirms
+        final ProgressDialog DIALOG = ProgressDialog.show(SettingsActivity.this, getString(R.string.login1), getString(R.string.wait), true);
         //URL, an die die Anfrage geschickt werden soll
         final String url = "https://eskes.de/janmarcus/Server/index.php?check=" + pass;
 
@@ -143,6 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
                     toast.show();
                     setCredentials(false);
                 }
+                DIALOG.cancel();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -150,6 +154,7 @@ public class SettingsActivity extends AppCompatActivity {
                 //Fehlermeldung, dass der Download nicht funktioniert hat
                 Toast toast = Toast.makeText(getApplicationContext(),R.string.downloadFail, Toast.LENGTH_LONG);
                 toast.show();
+                DIALOG.cancel();
             }
         });
     }

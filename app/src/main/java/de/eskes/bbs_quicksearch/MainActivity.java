@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         //Initialisieren der Einstellungen
-        //Quelle: https://developer.android.com/reference/android/content/SharedPreferences.html
+        //Quelle: https://developer.android.com/reference/android/content/SharedPreferences.html (27.02.2018)
         SharedPreferences settings = getSharedPreferences("Settings", 0);
         //Initialisieren der Volley queue
         //Quelle: https://developer.android.com/training/volley/index.html
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Laden der "Toolbar"
-        //Quelle: https://developer.android.com/training/appbar/setting-up.html
+        //Quelle: https://developer.android.com/training/appbar/setting-up.html (27.02.2018)
         Toolbar toolbar = findViewById(R.id.toolbar);
         //"Toolbar" als ActionBar (Die obere blaue Leiste)
         setSupportActionBar(toolbar);
@@ -352,6 +352,8 @@ public class MainActivity extends AppCompatActivity {
      * @param queue Volley queue, mit der die Anfrage ausgeführt werden soll
      */
     private void testCredentials(String pass, RequestQueue queue){
+        //Anzeigen eines Wartebildschirms
+        DIALOG = ProgressDialog.show(MainActivity.this, getString(R.string.login1), getString(R.string.wait), true);
         //URL wird generiert
         final String url = "https://eskes.de/janmarcus/Server/index.php?check=" + pass;
 
@@ -373,6 +375,8 @@ public class MainActivity extends AppCompatActivity {
                 else
                     //btnSearch wird wieder aktiviert
                     btnSearch.setEnabled(true);
+                //Schließen des Wartedialogs
+                DIALOG.cancel();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -380,6 +384,8 @@ public class MainActivity extends AppCompatActivity {
                 //Fehlermeldung, da der Server nicht antwortet
                 Toast toast = Toast.makeText(getApplicationContext(),R.string.downloadFail, Toast.LENGTH_LONG);
                 toast.show();
+                //Schließen des Wartedialogs
+                DIALOG.cancel();
             }
         });
         //Ausführen der Volley Anfrage
